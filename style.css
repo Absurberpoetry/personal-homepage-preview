@@ -1325,7 +1325,6 @@ body {
     --desk-scale: 0.54;
     --desk-scale: clamp(0.45, calc((100vw - 44px) / 630px), 0.64);
   }
-}
   .note-stream {
     height: clamp(210px, 34vh, 300px);
     min-height: 190px;
@@ -1437,6 +1436,11 @@ body {
   background: transparent;
   color: #edf1ef;
   border-color: #edf1ef;
+  transition: none;
+}
+
+.topic-stage-fate-only[data-anim-phase="invert-flash"] .fsk-entry-cta {
+  transition: none;
 }
 
 .topic-stage-fate-only[data-anim-phase="invert-flash"] .fsk-inner-stamp,
@@ -2646,8 +2650,10 @@ body {
 /* 窄窗口、平板与手机端适配：自适应流式排列，避免裁剪、左偏和嵌套滚动 */
 @media (max-width: 900px) {
   .topic-stage-fate-only {
+    display: block;
     height: auto;
     min-height: 100vh;
+    padding: 0;
     overflow-x: clip;
     overflow-y: visible;
   }
@@ -2666,32 +2672,45 @@ body {
     z-index: auto;
     width: 100%;
     height: auto;
+    min-height: 100vh;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
-    justify-items: center;
+    justify-items: stretch;
     align-items: stretch;
-    padding: 40px clamp(12px, 4vw, 28px) 44px;
+    align-content: center;
+    padding: 36px clamp(14px, 3.5vw, 28px) 42px;
     overflow: visible;
   }
   .fsk-hero-art-stage {
     grid-column: 1 / -1;
-    width: min(100%, 720px);
+    justify-self: center;
+    width: min(100%, 760px);
+    aspect-ratio: 16 / 10;
     flex-shrink: 0;
+  }
+  .fate-lineart-stage {
+    overflow: hidden;
+  }
+  .fate-lineart-canvas,
+  .fsk-popart-img {
+    object-fit: cover;
+    object-position: 45% 50%;
   }
   .fsk-enkidu-banner {
     grid-column: 1 / -1;
+    justify-self: center;
     position: relative;
     left: auto;
     bottom: auto;
     transform: none;
-    width: min(100%, 600px);
-    padding: 10px 18px;
+    width: min(100%, 620px);
+    padding: 9px 18px;
   }
   .fsk-enkidu-banner-inner {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px 12px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 10px;
   }
   .topic-stage-fate-only[data-poster-state="poster"][data-anim-phase="settled"] .fsk-enkidu-banner {
     transform: none;
@@ -2705,10 +2724,15 @@ body {
     bottom: auto;
     width: 100%;
     max-width: none;
+    filter: drop-shadow(5px 5px 0 #070c0a);
+  }
+  .fsk-card-spec {
+    filter: drop-shadow(5px 5px 0 #1ea853);
   }
   .fsk-card-entry {
     grid-column: 1 / -1;
-    width: min(100%, 600px);
+    justify-self: center;
+    width: min(100%, 620px);
   }
   .fsk-inner-reticle {
     left: 4%;
@@ -2717,46 +2741,316 @@ body {
 }
 
 @media (max-width: 600px) {
-  .stage-overlay.single-topic-layout.topic-fate-overlay {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 36px 12px 40px;
+  .topic-stage-fate-only {
+    min-height: 100vh;
+    min-height: 100svh;
   }
-  .fsk-card-hero {
-    padding: 14px 16px;
-    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  .fsk-marquee-strip {
+    height: 22px;
+    border-top-width: 1.5px;
+    border-bottom-width: 1.5px;
+  }
+  .fsk-marquee-track {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+  .fsk-geo-slash.is-emerald {
+    right: -4%;
+    width: clamp(54px, 15vw, 84px);
+    border-left-width: 2px;
+  }
+  .fsk-geo-slash.is-cyan {
+    right: calc(-4% + clamp(62px, 17vw, 94px));
+    width: 4px;
+  }
+  .fsk-geo-slash.is-ivory-line {
+    left: 5%;
+    width: 1.5px;
+  }
+  .fsk-geo-corner {
+    width: 110px;
+    height: 110px;
+  }
+  .stage-overlay.single-topic-layout.topic-fate-overlay {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 100vh;
+    min-height: 100svh;
+    gap: clamp(9px, 1.4vh, 13px) 8px;
+    padding: 28px 10px 32px;
+    align-items: stretch;
+    align-content: center;
+  }
+  .fsk-hero-art-stage {
+    grid-column: 1 / -1;
+    width: calc(100% + 20px);
+    max-width: none;
+    margin-inline: -10px;
+    aspect-ratio: auto;
+    height: clamp(325px, 50vh, 460px);
+    height: clamp(325px, 50svh, 460px);
+  }
+  .fate-lineart-stage {
+    overflow: hidden;
+  }
+  .fate-lineart-canvas,
+  .fsk-popart-img {
+    object-fit: cover;
+    object-position: 39% 50%;
+  }
+  .fsk-inner-stamp {
+    top: 10px;
+    right: 12px;
+    gap: 4px;
+  }
+  .fsk-inner-code {
+    padding: 2px 6px;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    border-width: 1.5px;
+  }
+  .fsk-inner-idx {
+    padding: 2px 5px;
+    font-size: 7.5px;
+    letter-spacing: 0.1em;
+  }
+  .fsk-inner-reticle {
+    left: 12px;
+    bottom: 12px;
+    gap: 6px;
+  }
+  .fsk-reticle-cross {
+    width: 10px;
+    height: 10px;
+    border-width: 1.5px;
+  }
+  .fsk-reticle-cross::before {
+    top: -3px;
+    bottom: -3px;
+    width: 1.5px;
+  }
+  .fsk-reticle-cross::after {
+    left: -3px;
+    right: -3px;
+    height: 1.5px;
+  }
+  .fsk-reticle-coord {
+    padding: 2px 6px;
+    font-size: 7.5px;
+    letter-spacing: 0.11em;
+  }
+  .fsk-enkidu-banner {
+    width: 100%;
+    padding: 6px 12px;
+    clip-path: polygon(11px 0, calc(100% - 11px) 0, 100% 50%, calc(100% - 11px) 100%, 11px 100%, 0 50%);
+  }
+  .fsk-enkidu-banner-inner {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .fsk-enkidu-index,
+  .fsk-enkidu-tag {
+    font-size: 7.5px;
+    padding: 2px 5px;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+  .fsk-enkidu-name {
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .fsk-enkidu-zh {
+    font-size: clamp(13px, 3.8vw, 16px);
+    letter-spacing: 0.06em;
+  }
+  .fsk-enkidu-sep {
+    font-size: 11px;
+  }
+  .fsk-enkidu-en {
+    font-size: clamp(14px, 4vw, 17px);
+    letter-spacing: 0.08em;
+  }
+  .fsk-card {
+    filter: drop-shadow(4px 4px 0 #070c0a);
   }
   .fsk-card-spec {
-    padding: 14px 18px;
-    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    filter: drop-shadow(4px 4px 0 #1ea853);
+  }
+  .fsk-card-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 9px 11px 8px;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .fsk-card-topline {
+    gap: 5px;
+    margin-bottom: 5px;
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
+  }
+  .fsk-live-dot {
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+  }
+  .fsk-badge-pill {
+    padding: 1.5px 5px;
+    white-space: nowrap;
+  }
+  .fsk-word-outline {
+    font-size: 10px;
+    margin-bottom: 1px;
+    letter-spacing: 0.08em;
+    -webkit-text-stroke: 1px #070c0a;
+  }
+  .fsk-word-acid {
+    font-size: clamp(19px, 5.4vw, 24px);
+  }
+  .fsk-word-cyan {
+    font-size: clamp(14px, 3.9vw, 18px);
+  }
+  .fsk-card-hero-foot {
+    margin-top: 7px;
+    padding-top: 5px;
+    border-top-width: 1.5px;
+    font-size: 7.5px;
+    letter-spacing: 0.06em;
+    gap: 4px;
+  }
+  .fsk-code-chip {
+    padding: 1px 4px;
+    border-width: 1px;
+  }
+  .fsk-card-spec {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 9px 11px 8px;
+    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  }
+  .fsk-spec-head {
+    font-size: 7.5px;
+    letter-spacing: 0.06em;
+    gap: 4px;
+  }
+  .fsk-spec-num {
+    padding: 1.5px 4px;
+    flex-shrink: 0;
+  }
+  .fsk-spec-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .fsk-sigil-wrap {
+    margin: 4px 0;
+  }
+  .fsk-sigil-svg {
+    max-height: 36px;
+  }
+  .fsk-spec-foot {
+    padding-top: 5px;
+    border-top-width: 1px;
+    gap: 4px;
+  }
+  .fsk-spec-title {
+    font-size: clamp(13px, 3.8vw, 16px);
+    letter-spacing: 0.03em;
+  }
+  .fsk-spec-pill {
+    padding: 1.5px 4px;
+    font-size: 7px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
   }
   .fsk-card-entry {
     width: 100%;
-    padding: 16px 18px;
-    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 20px);
+    max-width: none;
+    padding: 10px 12px 10px 14px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 3px;
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 14px);
   }
-  .fsk-word-acid { font-size: 32px; }
-  .fsk-word-cyan { font-size: 22px; }
-  .fsk-heading-big { font-size: 28px; }
-  .fsk-enkidu-banner {
-    width: 100%;
-    padding: 9px 14px;
-    clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0 50%);
+  .fsk-entry-tags {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 1px;
+    gap: 4px;
   }
-  .fsk-enkidu-zh { font-size: 18px; }
-  .fsk-enkidu-en { font-size: 20px; }
-  .fsk-inner-code {
-    padding: 2px 6px;
-    font-size: 10px;
+  .fsk-chip {
+    padding: 1.5px 5px;
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
   }
-  .fsk-inner-idx,
-  .fsk-reticle-coord {
-    padding: 2px 6px;
+  .fsk-chip.is-cyan {
+    border-width: 1px;
+  }
+  .fsk-poster-heading {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 2px 6px;
+  }
+  .fsk-heading-big {
+    font-size: clamp(18px, 5.2vw, 23px);
+  }
+  .fsk-heading-sub {
+    margin-top: 0;
+    font-size: 8.5px;
+    letter-spacing: 0.1em;
+  }
+  .fsk-poster-desc {
+    grid-column: 1;
+    grid-row: 3;
+    margin: 0;
     font-size: 8px;
+    letter-spacing: 0.07em;
   }
-  .fsk-reticle-cross {
-    width: 12px;
-    height: 12px;
+  .fsk-cta-row {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+  }
+  .fsk-entry-cta {
+    padding: 7px 11px;
+    border-width: 1.5px;
+    font-size: 10.5px;
+    gap: 5px;
+    justify-content: center;
+    white-space: nowrap;
+  }
+  .fsk-replay-btn {
+    padding: 5px 10px;
+    border-width: 1.5px;
+    font-size: 9.5px;
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 350px) {
+  .fsk-enkidu-banner {
+    padding: 5px 8px;
+  }
+  .fsk-enkidu-index,
+  .fsk-enkidu-tag {
+    font-size: 6.8px;
+    padding: 1.5px 4px;
+  }
+  .fsk-enkidu-zh {
+    font-size: 12px;
+  }
+  .fsk-enkidu-en {
+    font-size: 13px;
   }
 }
 

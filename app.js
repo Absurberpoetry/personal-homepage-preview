@@ -1213,6 +1213,7 @@ function initFskPosterZone({ reducedMotion }) {
     raf: 0,
     progress: 0,
     lastStep: -1,
+    lastSecH: 0,
     pinned: false
   };
 
@@ -1323,6 +1324,7 @@ function initFskPosterZone({ reducedMotion }) {
   function clearGlitchOverlay() {
     stopGlitchRaf();
     glitchHost.lastStep = -1;
+    glitchHost.lastSecH = 0;
     glitchHost.progress = 0;
     if (glitchHost.overlay) glitchHost.overlay.style.display = "none";
     glitchHost.greenLockPool.forEach(({ band }) => { band.style.display = "none"; });
@@ -1371,9 +1373,10 @@ function initFskPosterZone({ reducedMotion }) {
       delete section.dataset.slashGlitch;
     }
 
-    if (stepIdx !== glitchHost.lastStep) {
+    const secH = section.clientHeight || window.innerHeight || 900;
+    if (stepIdx !== glitchHost.lastStep || glitchHost.lastSecH !== secH) {
       glitchHost.lastStep = stepIdx;
-      const secH = section.clientHeight || window.innerHeight || 900;
+      glitchHost.lastSecH = secH;
 
       // 1) 更新持久保留的绿色海报区域
       for (let g = 0; g < GREEN_LOCK_STAGES.length; g++) {
@@ -1384,6 +1387,7 @@ function initFskPosterZone({ reducedMotion }) {
           lockItem.band.style.display = "block";
           lockItem.band.style.top = `${lockCfg.y}%`;
           lockItem.band.style.height = `${lockCfg.h}%`;
+          lockItem.anchor.style.height = `${secH}px`;
           lockItem.anchor.style.transform = `translate3d(0, -${topPx}px, 0)`;
         } else {
           lockItem.band.style.display = "none";
@@ -1405,6 +1409,7 @@ function initFskPosterZone({ reducedMotion }) {
           item.band.dataset.mode = slot.mode;
           item.band.dataset.z = String(slot.z);
 
+          item.anchor.style.height = `${secH}px`;
           item.anchor.style.transform = `translate3d(0, -${topPx}px, 0)`;
           item.stageClone.dataset.mode = slot.mode;
           item.stageClone.dataset.z = String(slot.z);
